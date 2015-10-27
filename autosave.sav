@@ -1,0 +1,15 @@
+(ipokerUI
+saveClass
+p0
+(dp1
+S'savePosition'
+p2
+I0
+sS'saves'
+p3
+(lp4
+(lp5
+asS'stack'
+p6
+I01
+sb.
