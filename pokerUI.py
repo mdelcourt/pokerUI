@@ -127,6 +127,8 @@ class UI(Tk):
   def fillTableFrame(self,f):
     buttonWidth=25
     buttonHeight=10
+    self.nPlayerText=Label(f,text="")
+    self.nPlayerText.pack(side="top",fill="both")
     f1=Frame(f)
     f1.pack(side="top")
     for tableId in range(0,4):
@@ -183,8 +185,14 @@ class UI(Tk):
   def refreshTableButtons(self):
     self.undoRedoColourUpdate()
     self.refreshMessage()
+
     bv=self.tableButtons
     txt=""
+    if type(self.t)==list:
+      self.nPlayerText["text"]="No tournament loaded"
+    else:
+      self.nPlayerText["text"]="Total number of player = %s"%len(self.t.playerList)
+
     for i in range(len(bv)):
       if type(self.t)==list:
 	txt="Table %s \n Tournament not loaded"%i
@@ -198,7 +206,7 @@ class UI(Tk):
 	  txt="Table %s \n No such table."%i
 	  c=lambda :self.echo("No such table")
 	else:
-	  txt="Table %s :"%table.id
+	  txt="Table %s (%s):"%(table.id,len(table.players))
 	  for p in table.players:
 	    txt+=("\n%s : %s (%s)"%(p.id,p.name,p.nMoves))
 	  c=lambda t=table: self.tV.loadTable(t)
