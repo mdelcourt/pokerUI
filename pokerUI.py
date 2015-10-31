@@ -4,7 +4,7 @@
 # On importe Tkinter
 from Tkinter import *
 from pokerlib import *
-import sys, Tkinter
+import sys, Tkinter,os
 sys.modules['tkinter'] = Tkinter
 #from tkinter.Tk import *
 import copy
@@ -73,7 +73,7 @@ class UI(Tk):
     self.menuBar=Menu(self.w)
     self.fileMenu=Menu(self.menuBar,tearoff=0)
     self.fileMenu.add_command(label="Open...",command=self.loadFileWindow)
-    self.fileMenu.add_command(label="Save...")
+    self.fileMenu.add_command(label="Save...",command=self.saveFileWindow)
     self.menuBar.add_cascade(label="File",menu=self.fileMenu)
     self.w.config(menu=self.menuBar)
     
@@ -243,7 +243,49 @@ class UI(Tk):
     b.pack(side="left")
     f.pack(side="top",fill=X)
     
-    
+  def saveFileWindow(self):
+    self.saveWindow=Tk()
+    #self.loadWindow.geometry("%sx%s+300+300"%(300,100))
+    txt=Label(self.saveWindow,width=10,text="Save to file :")
+    txt.pack(side="top")
+    f=Frame(self.saveWindow)
+    txt=Label(f,text="Name list :")
+    txt.pack(side="left",fill=X)
+    f.pack(side="top",fill=X)
+    f=Frame(self.saveWindow)
+    nameWidget = Entry(f,width=30)
+    nameWidget.insert(0,config.DEFAULT_FILE)
+    nameWidget.pack(side="left")
+    c=lambda: self.savePlayerList(nameWidget.get())
+    b = Button(f,text="ok",command=c)
+    b.pack(side="left")
+    f.pack(side="top",fill=X)
+    f=Frame(self.saveWindow)
+    txt=Label(f,text="Save file :")
+    txt.pack(side="left",fill=X)
+    f.pack(side="top",fill=X)
+    f=Frame(self.saveWindow)
+    saveWidget = Entry(f,width=30)
+    saveWidget.insert(0,config.DEFAULT_SAVE)
+    saveWidget.pack(side="left")
+    c2=lambda: self.saveToFile(saveWidget.get())
+    b = Button(f,text="ok",command=c2)
+    b.pack(side="left")
+    f.pack(side="top",fill=X)
+  
+  def savePlayerList(self,sName="data/liste.txt"):
+    if type(self.t)==list:
+      self.echo("No tournament to save!")
+    elif not os.path.isdir("./"+sName[:-len(sName.split("/")[-1])]):
+      self.echo("%s not a directory!"%("./"+sName[:-len(sName.split("/")[-1])]))
+    else:
+      self.echo("Saving to %s..."%sName)
+    toSave=""
+    for i in range(len(self.t.playerList)):
+      toSave+="%s\t%s\n"%(i+1,self.t.playerList[i].name)
+    with open(sName,"w") as f:
+      f.write(toSave)
+  
   def echo(self,message):
     self.textPad.text.insert(1.0,message+'\n')
   
