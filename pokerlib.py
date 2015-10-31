@@ -48,13 +48,10 @@ class tournoi:
     return(None)
   def printTables(self):
     txt=""
-    if config.UI==True:
-      return()
-    else:
-      for t in self.tables:
-	txt+="#### Table %s : %s players ####\n"%(t.id,len(t.players))
-	for p in t.players:
-	    txt+="%s - %s (%s moves)\n"%(p.id,p.name,p.nMoves)
+    for t in self.tables:
+      txt+="#### Table %s : %s players ####\n"%(t.id,len(t.players))
+      for p in t.players:
+	  txt+="%s - %s (%s moves)\n"%(p.id,p.name,p.nMoves)
     if not config.SILENT:
       print txt
     #self.message.append(txt)

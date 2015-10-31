@@ -281,6 +281,7 @@ class UI(Tk):
     if type(self.t)==list:
       self.echo("ERROR, tournament not initialized yet !")
     else:
+      print self.t.printTables()
       self.echo(self.t.printTables())
       
       
