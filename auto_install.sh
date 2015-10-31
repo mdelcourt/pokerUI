@@ -1,3 +1,4 @@
+chmod +x pokerUI.py
 echo "*** Checking dependencies"
 sudo apt-get install g++ libsdl-ttf2.0-dev libsdl1.2-dev python-tk libsdl-image1.2-dev
 cd blindes/files
