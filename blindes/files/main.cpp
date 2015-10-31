@@ -44,6 +44,8 @@ public:
     string big_blind;
     string ante;
     int short_pause;
+    int nPlayer;
+    int nChips0;
     
     SDL_Surface* screen;
     SDL_Surface *texte;
@@ -52,17 +54,22 @@ public:
     
     SDL_Rect pos_texte;
     TTF_Font *police;
+    TTF_Font *police_info;
     Uint32 blanc;
     
     int res_x;
     int res_y;
     bool center;
     int font_size;
+    int font_size2;
     bool img;
     string img_name;
     float img_width;
-
+    int interline;
+    
     timer(int min, int sec);
+    string get_tapis_info();
+    string get_nPlayer();
     void new_level();
     void load();
     void call_TIME();
@@ -77,6 +84,7 @@ public:
 timer::timer(int min,int sec){
   
     loadConfig();
+    nChips0*=nPlayer;
     choice_time=SDL_GetTicks();
     changer_niveau_moins=0;
     changer_niveau_plus=0;
@@ -87,6 +95,7 @@ timer::timer(int min,int sec){
     blanc=SDL_MapRGB(screen->format,255,255,255);
 
     police = TTF_OpenFont("jeu.ttf", font_size);
+    police_info=TTF_OpenFont("jeu.ttf",font_size2);
     pos_texte.x=10;
     pos_texte.y=10;
 
@@ -102,6 +111,11 @@ void timer::loadConfig(){
   res_x=800;
   res_y=600;
   font_size=50;
+  font_size2=35;
+  nChips0=500;
+  nPlayer=90;
+  short_pause=100;
+  interline=10;
   img=false;
   ifstream is(configFile.c_str(),std::ios::in);
   if(!is) {
@@ -144,8 +158,28 @@ void timer::loadConfig(){
 		  short_pause=atoi(Value.c_str());
 		  continue;
 	  }
+	  if(Parameter=="N_PLAYER"){
+		  nPlayer=atoi(Value.c_str());
+		  continue;
+	  }
+	  if(Parameter=="CHIPS_INIT"){
+		  nChips0=atoi(Value.c_str());
+		  continue;
+	  }
 	  if(Parameter=="IMAGE_WIDTH"){
 		  img_width=atof(Value.c_str());
+		  continue;	    
+	  }
+	  if(Parameter=="FONT_SIZE"){
+		  font_size=atof(Value.c_str());
+		  continue;	    
+	  }
+	  if(Parameter=="FONT_SIZE_INFO"){
+		  font_size2=atof(Value.c_str());
+		  continue;	    
+	  }
+	  if(Parameter=="INTERLINE_SIZE"){
+		  interline=atof(Value.c_str());
 		  continue;	    
 	  }
 
@@ -207,6 +241,16 @@ void timer::stop_pause(){
     SDL_Delay(100);
 }
 
+string timer::get_nPlayer(){
+  return("91 joueurs");
+}
+string timer::get_tapis_info(){
+  stringstream ss;
+  if (nPlayer<=0){nPlayer=1;}
+  ss<<nPlayer<<" joueurs  Tapis moyen = "<<(int)(nChips0*1./nPlayer +0.5);
+  return(ss.str());
+}
+
 void timer::afficher(){
     int i=0;
     bool keyIsDown=false;
@@ -217,13 +261,15 @@ void timer::afficher(){
 	if(event.type==SDL_KEYUP){
 	  keyIsDown=false;
 	}
-        if(event.type==SDL_KEYDOWN and not keyIsDown){
+        if(event.type==SDL_KEYDOWN && ! keyIsDown){
 	    keyIsDown=true;
             if(event.key.keysym.sym==SDLK_SPACE && pause){stop_pause(); SDL_Delay(100);}
             else if(event.key.keysym.sym==SDLK_i){system("cvlc  intro.mp3 --no-loop&");SDL_Delay(100); }
             else if(event.key.keysym.sym==SDLK_e){system("cvlc  ept_opening.mp3 --no-loop&");SDL_Delay(100); }
             else if(event.key.keysym.sym==SDLK_g){system("cvlc  gogole.mp3 --no-loop&");SDL_Delay(100); }
-            else if(event.key.keysym.sym==SDLK_SPACE){start_pause(); }
+            else if(event.key.keysym.sym==SDLK_SPACE){start_pause();}
+            else if(event.key.keysym.sym==SDLK_EQUALS || event.key.keysym.sym==SDLK_KP_PLUS){nPlayer++;SDL_Delay(100);}
+            else if(event.key.keysym.sym==SDLK_MINUS|| event.key.keysym.sym==SDLK_KP_MINUS){nPlayer--;SDL_Delay(100);}
             else if(event.key.keysym.sym==SDLK_t){ if(!TIME) call_TIME(); else {TIME=false; SDL_Delay(100);} }
             else if (event.key.keysym.sym==SDLK_RIGHT){
                 if(!changer_niveau_plus){cout<<"Réappuyez pour changer de niveau"<<endl; changer_niveau_plus=true; SDL_Delay(100);choice_time=SDL_GetTicks();}
@@ -253,41 +299,44 @@ void timer::afficher(){
 	  }
 
 	  SDL_FillRect(screen,NULL,blanc);
-	  
-	  //Afficher logos
-  // 	cout<<"Affichage de logos. i="<<i<<endl;
-  // 	if (i==0){
-  // 	  image=IMG_Load(img_name.c_str());
-  // 	}
+
 	  if(i%10==0){
 	    if (i>0){
 	      SDL_FreeSurface(image);
 	    }
 	    image=IMG_Load(img_name.c_str());
 	  }
-	  pos_image.x=0;
-	  pos_image.y=200;
-  // 	pos_image.width=200;
-	  SDL_BlitSurface(image, NULL, screen, &pos_image);
-
+	  pos_image.x=screen->w/2.-image->w/2.;
+	  pos_image.y=2*font_size+font_size2+4*interline;
+	  if(!TIME){
+	    SDL_BlitSurface(image, NULL, screen, &pos_image);
+	  }
+	  
 	  texte=TTF_RenderText_Blended(police,gettime().c_str(),noir);
-	  pos_texte.y=10+texte->h;
-	  pos_texte.x=10;
-
+	  pos_texte.y=font_size+2*interline;
+	  pos_texte.x=screen->w/2.-texte->w/2.;
+	  
 	  SDL_BlitSurface(texte,NULL,screen,&pos_texte);
 	  SDL_FreeSurface(texte);
 	  pos_texte.x+=texte->w;
 	  string texte_a_afficher;
-	  texte_a_afficher+=" SB: "+small_blind+" BB: "+big_blind;
+	  texte_a_afficher+="SB: "+small_blind+" BB: "+big_blind;
 	  if (ante[0]-'0'>0) texte_a_afficher+=" Ante: "+ante;
-	  pos_texte.x=0;
-	  pos_texte.y=0;
 	  texte=TTF_RenderText_Blended(police,texte_a_afficher.c_str(),noir);
+	  pos_texte.x=screen->w/2.-texte->w/2.;
+	  pos_texte.y=interline;
+
+	  SDL_BlitSurface(texte,NULL,screen,&pos_texte);
+	  SDL_FreeSurface(texte);
+	  pos_texte.y=2*font_size+ 3*interline;
+	  texte=TTF_RenderText_Blended(police_info,get_tapis_info().c_str(),noir);
+	  pos_texte.x=(screen->w)/2.-(texte->w)/2.;
 	  SDL_BlitSurface(texte,NULL,screen,&pos_texte);
 	  SDL_FreeSurface(texte);
 
+	  
 	  if(TIME){
-	      pos_texte.y+=110;
+	      pos_texte.y=2*font_size+font_size+4*interline;
 	      texte=TTF_RenderText_Blended(police,"TIME",rouge);
 	      pos_texte.x=(screen->w)/2-(texte->w)/2;
 	      SDL_BlitSurface(texte,NULL,screen,&pos_texte);
@@ -312,6 +361,7 @@ void timer::afficher(){
 //         if(event.type!=SDL_MOUSEMOTION)SDL_Delay(short_pause);
     }
 }
+
 
 string timer::gettime(){
     if (temps_total-(SDL_GetTicks()-init)/1000>temps_total&& !pause) new_level();
