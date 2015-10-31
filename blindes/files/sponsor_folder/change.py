@@ -1,16 +1,15 @@
 #!/usr/bin/python
-import os
+import time, os
 imageName="sponsor.png"
-time=10
-#os.chdir("files/sponsor_folder")
+stime=10
 images=[]
 for i in os.listdir("."):
   if i[-4:].find(".png")>-1:
     images.append(i)
 print images
-while True:
+while not ".kill_change_sponsor" in os.listdir("."):
   for im in images:
     os.system("cp %s ../%s"%(im,imageName))
     print "Moved %s to ../%s"%(im,imageName)
-    os.system("sleep %ss"%time)
-  
+    time.sleep(stime)
+
