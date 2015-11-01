@@ -214,7 +214,7 @@ class tournoi:
 	#print "DEBUG : NO DEL FLAG -> RANDOM FROM SHORTEST TABLES"
 	toRemove=random.choice(shortest)
       self.tables.remove(toRemove)
-      txt="Removed table %s "%toRemove.id
+      txt="%sRemoved table %s "%("__POPUP__" if config.UI else "",toRemove.id)
       
       for player in toRemove.players:
 	loopBreak=0
@@ -325,7 +325,7 @@ class tournoi:
 	  toMove.nMoves+=1
 	  if not config.SILENT:
 	    print "Moved %s from table %s to %s"%(toMove.name,tableFrom.id,tableTo.id)
-	  self.message.append("Moved %s from table %s to %s"%(toMove.name,tableFrom.id,tableTo.id))
+	  self.message.append("%sMoved %s from table %s to %s"%("__POPUP__" if config.UI else "",toMove.name,tableFrom.id,tableTo.id))
     
   def removePlayer(self,playerId):
     self.tSave()

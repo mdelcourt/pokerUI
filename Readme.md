@@ -60,6 +60,9 @@ When deleting a table, chooses from table in which the player that moved the mos
 
 When a table has to be deleted, only choose from smallest tables.
 
+* POPUP = True
+
+Show a popup when players move.
 ## Blindes
 ### Overview
 The blindes program aims to display on screen informations relative to the status of the tournament. The current blind level, the time left, number of players, average stack and, if needed, the logo of sponsors.

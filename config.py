@@ -25,6 +25,7 @@ MIN_MAX_ON_DEL	= True #Choose table with the minimum maximum num of moves
 SOFT_SEL_ON_DEL = False  #When deleting, always choose from shortest tables
 
 SILENT		= True
+POPUP		= True
 
 DEFAULT_FILE 	= "data/liste.txt"
 DEFAULT_SAVE	= "autosave.sav"

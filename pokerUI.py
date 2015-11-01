@@ -287,8 +287,20 @@ class UI(Tk):
       f.write(toSave)
   
   def echo(self,message):
+    if "__POPUP__" in message[:9]:
+      message=message.replace("__POPUP__","")
+      if config.POPUP:
+	self.popup(message)
     self.textPad.text.insert(1.0,message+'\n')
-  
+    
+  def popup(self,message = "Error, no message specified"):
+    popupWindow=Tk()
+    txt=Label(popupWindow,text=message,fg="red",font=("Helvetica", 20))
+    txt.pack(side="top")
+    c=lambda: popupWindow.destroy()
+    b = Button(popupWindow,text="ok",command=c)
+    b.pack(side="top")
+
   def refreshMessage(self):
     if not type(self.t)==list:
       messageList=self.t.message
