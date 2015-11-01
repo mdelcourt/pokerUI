@@ -76,8 +76,9 @@ This software uses the following sdl libraries :libsdl-ttf2.0-dev libsdl1.2-dev 
 
 The program will then have to be compiled using the following command (written in compile.sh).
 
-> g++ main.cpp `sdl-config --libs --cflags ` -lSDL_ttf -lSDL_image -o blindes.out
-
+```
+g++ main.cpp `sdl-config --libs --cflags ` -lSDL_ttf -lSDL_image -o blindes.out
+´´´
 Then, the permissions have to be changed on the launcher in order to execute it.
 
 ### Features
