@@ -429,7 +429,3 @@ class tournoi:
       if not config.SILENT:
 	print txt
 	
-	
-	
-	
-    pass

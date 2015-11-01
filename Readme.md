@@ -13,10 +13,46 @@ Then, just run pokerUI.py.
 
 ### Features
 
+Upon launching pokerUI, the main user interface opens. To start a tournament, you first have to load either a player list file or a save file. 
+
+The "start default tournament" button will open the data/liste.txt file, and create a new tournament from it. Players will be randomly assigned to tables according to the settings in the configuration file. The format of the list file has to be the following : a unique player id, a tabulation, and the player name for each line. This corresponds to a copy-paste from a libreoffice spreadsheet (an example is available in the data folder).
+
+To load another list of players or a save file from a previous tournament, go to file>open... enter the desired name and press "ok".
+
+Once a tournament is created/loaded, the different tables created are displayed on the main screen. Under the table, comments and player operations are displayed.
+
+Once a player is eliminated, click on the corresponding table and on "remove" next to the player's name. The player will disappear and the tables will be equilibrated. The operations done are displayed in the main window.
+
+If, for some reason, a player has to be moved from a table to another, click on his table, then the button furthest to the right next to his name and select the desired destination table. Then, click on "Move to table".
+
+If a player wasn't in the list and has to be manually added, select the desired table, then "Add player".
+
+To save the state of a tournament or a list of its players, either click on "Save to file" for the default autosave.sav, or file>save...
 
 
 ### Configuration
 
+The tournament configuration is described in config.py The most important parameters are the following :
 
+* MAX_DIFF_gt_6 = 1
+This option gives the maximum player difference allowed between tables in the tournament while the average number of players is greater than six. By default, it is set to 1 to have a tournament as fair as possible. This value can be changed to two to reduce the number of players being moved (it will decrease the average number of moves by 0.07 and the maximum number of moves a player has to do by 0.18 on standard options). 
+
+* MIN_MOVE = True
+When a table has to lose a player, choose from the players that moves the least.
+
+* GLOBAL_MIN_MOVE = True
+When a player has to be moved, select from the players of the whole tournament that moved the least.
+
+* SOFT_GLMM_SEL = True
+If GLOBAL_MIN_MOVE is selected, only choose from longest tables. False is not recommended.
+
+* MIN_MOVE_ON_DEL = False
+When deleting a table, chooses table with lowest number of total moves
+
+* MIN_MAX_ON_DEL = True
+When deleting a table, chooses from table in which the player that moved the most has the lowest moves. The two previous options obviously can't be true at the same time.
+
+* SOFT_SEL_ON_DEL = False
+When a table has to be deleted, only choose from smallest tables.
 
 ## Blindes
