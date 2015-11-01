@@ -78,7 +78,7 @@ The program will then have to be compiled using the following command (written i
 
 ```
 g++ main.cpp `sdl-config --libs --cflags ` -lSDL_ttf -lSDL_image -o blindes.out
-´´´
+```
 Then, the permissions have to be changed on the launcher in order to execute it.
 
 ### Features
