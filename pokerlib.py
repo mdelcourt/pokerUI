@@ -67,7 +67,7 @@ class tournoi:
 	  print "%s - %s (%s moves)"%(p.id,p.name,p.nMoves)
       
   def tSave(self):
-    if config.UI:
+    if config.UI or not config.SWAP:
       return 0
     self.tablesBackup=deepcopy(self.tables)
     self.playerListBackup=deepcopy(self.playerList)
@@ -178,7 +178,8 @@ class tournoi:
 	    minMoveTables.append(t)
 	#print "DEBUG : MIN_MOVE TABLES : %s with %s moves"%(minMoveTables,minMoves)
 	toRemove=random.choice(minMoveTables)
-	print "Chose to remove table %s"%toRemove
+	if not config.SILENT:
+	  print "Chose to remove table %s"%toRemove
       elif config.MIN_MAX_ON_DEL:
 	minMax=1000
 	minMaxTables=[]
