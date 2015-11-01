@@ -285,7 +285,6 @@ class UI(Tk):
       toSave+="%s\t%s\n"%(i+1,self.t.playerList[i].name)
     with open(sName,"w") as f:
       f.write(toSave)
-  
   def echo(self,message):
     if "__POPUP__" in message[:9]:
       message=message.replace("__POPUP__","")
