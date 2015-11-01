@@ -32,27 +32,75 @@ To save the state of a tournament or a list of its players, either click on "Sav
 
 ### Configuration
 
-The tournament configuration is described in config.py The most important parameters are the following :
+The tournament configuration is described in config.py The most important parameters are the following:
 
 * MAX_DIFF_gt_6 = 1
+
 This option gives the maximum player difference allowed between tables in the tournament while the average number of players is greater than six. By default, it is set to 1 to have a tournament as fair as possible. This value can be changed to two to reduce the number of players being moved (it will decrease the average number of moves by 0.07 and the maximum number of moves a player has to do by 0.18 on standard options). 
 
 * MIN_MOVE = True
+
 When a table has to lose a player, choose from the players that moves the least.
 
 * GLOBAL_MIN_MOVE = True
+
 When a player has to be moved, select from the players of the whole tournament that moved the least.
 
 * SOFT_GLMM_SEL = True
+
 If GLOBAL_MIN_MOVE is selected, only choose from longest tables. False is not recommended.
 
 * MIN_MOVE_ON_DEL = False
+
 When deleting a table, chooses table with lowest number of total moves
-
 * MIN_MAX_ON_DEL = True
-When deleting a table, chooses from table in which the player that moved the most has the lowest moves. The two previous options obviously can't be true at the same time.
 
+When deleting a table, chooses from table in which the player that moved the most has the lowest moves. The two previous options obviously can't be true at the same time.
 * SOFT_SEL_ON_DEL = False
+
 When a table has to be deleted, only choose from smallest tables.
 
 ## Blindes
+### Overview
+The blindes program aims to display on screen informations relative to the status of the tournament. The current blind level, the time left, number of players, average stack and, if needed, the logo of sponsors.
+
+### Installation
+For a distribution from the debian family, the script auto_install.sh should successfully install the software.
+
+If not, the following dependencies have to be installed
+* SDL
+
+This software uses the following sdl libraries :libsdl-ttf2.0-dev libsdl1.2-dev libsdl-image1.2-dev
+* G++
+* Vlc is used to play sounds, but is not required to run the main program
+
+The program will then have to be compiled using the following command (written in compile.sh).
+
+> g++ main.cpp `sdl-config --libs --cflags ` -lSDL_ttf -lSDL_image -o blindes.out
+
+Then, the permissions have to be changed on the launcher in order to execute it.
+
+### Features
+Once the program is launched, it will read out information from the configuration files and start a new tournament (see next section). The first blind level will be selected and the timer will be paused. From there, the following actions are possible:
+* Space bar : pause the timer
+* + and - : change the number of players in the tournament
+* t : Start the clock (60s to take a decision)
+* press twice the arrow to the right/left : change blind level
+
+### Configuration
+#### blindes.txt
+The blindes.txt file saves the different blind levels with the following format :
+>SB-X BB-X A-X T-X
+where X is the values (int) of the small blind, big blind, ante and time (in minutes) of the level. Then, at the end of the blind table :
+>END
+
+#### blindes.conf
+
+* RES_X, RES_Y : Size of the window
+* FONT, FONT_INFO, INTERLINE : size of the font and font for the tournament status. Padding size between lines.
+* IMAGE : source of the picture to show. sponsor.jpg will be automatically changing through every .jpg picture in sponsor_folder.
+* IMG_WIDTH : not (yet?) used
+* SHORT_PAUSE : pause (in ms) after refreshing screen
+* N_PLAYER : Starting number of players in tournament
+* CHIPS_INIT : Starting number of chips per person
+

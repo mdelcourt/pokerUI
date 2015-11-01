@@ -1,12 +1,12 @@
 #!/usr/bin/python
 import time, os
-imageName="sponsor.png"
+imageName="sponsor.jpg"
 stime=10
 images=[]
 for i in os.listdir("."):
-  if i[-4:].find(".png")>-1:
+  if i[-4:].find("jpg")>-1:
     images.append(i)
-print images
+print "Images : %s"%images
 while not ".kill_change_sponsor" in os.listdir("."):
   for im in images:
     os.system("cp %s ../%s"%(im,imageName))
