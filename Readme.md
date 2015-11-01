@@ -82,7 +82,7 @@ Then, the permissions have to be changed on the launcher in order to execute it.
 
 ### Features
 Once the program is launched, it will read out information from the configuration files and start a new tournament (see next section). The first blind level will be selected and the timer will be paused. From there, the following actions are possible:
-* Space bar : pause the timer
+* Space bar : pause/unpause the timer
 * + and - : change the number of players in the tournament
 * t : Start the clock (60s to take a decision)
 * press twice the arrow to the right/left : change blind level
@@ -91,7 +91,9 @@ Once the program is launched, it will read out information from the configuratio
 #### blindes.txt
 The blindes.txt file saves the different blind levels with the following format :
 >SB-X BB-X A-X T-X
+
 where X is the values (int) of the small blind, big blind, ante and time (in minutes) of the level. Then, at the end of the blind table :
+
 >END
 
 #### blindes.conf
