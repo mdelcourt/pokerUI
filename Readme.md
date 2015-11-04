@@ -76,6 +76,7 @@ If not, the following dependencies have to be installed
 This software uses the following sdl libraries :libsdl-ttf2.0-dev libsdl1.2-dev libsdl-image1.2-dev
 * G++
 * Vlc is used to play sounds, but is not required to run the main program
+* python2.7
 
 The program will then have to be compiled using the following command (written in compile.sh).
 
