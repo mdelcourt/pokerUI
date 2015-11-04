@@ -7,7 +7,7 @@ PokerUI is a user interface to manage tables during the tournament while blindes
 ### Overview
 PokerUI is a tk interface built for the pokerlib library developed for smaller tournaments.
 ### Installation
-From a standard linux distribution, the only extra packet needed is python-tk. For a debian based distribution, it will be installed by the "auto_install.sh" script used to build the "blindes" program.
+From a standard linux distribution, the only extra packet needed is python-tk (and python2.7, usually installed by default). For a debian based distribution, it will be installed by the "auto_install.sh" script used to build the "blindes" program.
 
 Then, just run pokerUI.py.
 
@@ -76,7 +76,6 @@ If not, the following dependencies have to be installed
 This software uses the following sdl libraries :libsdl-ttf2.0-dev libsdl1.2-dev libsdl-image1.2-dev
 * G++
 * Vlc is used to play sounds, but is not required to run the main program
-* python2.7
 
 The program will then have to be compiled using the following command (written in compile.sh).
 
